@@ -1,0 +1,56 @@
+{
+  "lock": false,
+  "tasks": {
+    "check": "deno fmt --check && deno lint && deno check **/*.ts **/*.tsx",
+    "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run -A -",
+    "manifest": "deno task cli manifest $(pwd)",
+    "start": "deno run -A --watch=static/,routes/ dev.ts",
+    "build": "deno run -A dev.ts build",
+    "preview": "deno run -A main.ts",
+    "update": "deno run -A -r https://fresh.deno.dev/update ."
+  },
+  "unstable": ["kv"],
+  "lint": {
+    "rules": {
+      "tags": [
+        "fresh",
+        "recommended"
+      ]
+    }
+  },
+  "exclude": [
+    "**/_fresh/*",
+    "static/"
+  ],
+  "imports": {
+    "$fresh/": "https://deno.land/x/fresh@1.6.5/",
+    "preact": "https://esm.sh/preact@10.19.6",
+    "preact/": "https://esm.sh/preact@10.19.6/",
+    "tailwindcss": "npm:tailwindcss@3.4.1",
+    "tailwindcss/": "npm:/tailwindcss@3.4.1/",
+    "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
+    "@tailwindcss/typography": "npm:/@tailwindcss/typography@0.5.10",
+    "@tailwindcss/forms": "npm:/@tailwindcss/forms@0.5.7",
+    "$std/": "https://deno.land/std@0.213.0/",
+    "oauth2_client": "https://deno.land/x/oauth2_client@v1.0.2/mod.ts",
+    "aws_s3_presign": "https://deno.land/x/aws_s3_presign@2.1.0/mod.ts",
+    "aws_sign_v4": "https://deno.land/x/aws_sign_v4@1.0.2/mod.ts",
+    "exif-parser": "https://deno.land/x/deno_exif@0.0.4/mod.ts",
+    "image-magick": "https://deno.land/x/imagemagick_deno@0.0.26/mod.ts",
+    "ulid": "https://deno.land/x/ulid@v0.3.0/mod.ts",
+    "maplibregl": "npm:maplibre-gl@3.6.2",
+    "geojson": "npm:@types/geojson@7946.0.13",
+    "diff": "npm:diff@5.1.0",
+    "marked": "npm:marked@11.2.0",
+    "ammonia": "https://deno.land/x/ammonia@0.3.1/mod.ts",
+    "feed": "npm:feed@4.2.2",
+    "type-fest": "npm:type-fest@4.10.2",
+    "slug": "https://deno.land/x/slug@v1.1.0/mod.ts",
+    "sortablejs": "npm:sortablejs@1.15.2"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  },
+  "nodeModulesDir": true
+}
