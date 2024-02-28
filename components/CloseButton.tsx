@@ -1,3 +1,4 @@
+import { asset } from "$fresh/runtime.ts";
 import { JSX } from "preact/jsx-runtime";
 
 interface CloseButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
@@ -21,7 +22,7 @@ export default function CloseButton(
       `}
     >
       <svg class="w-full h-full text-white">
-        <use href="/icons.svg#close" />
+        <use href={asset("/icons.svg#close")} />
       </svg>
     </button>
   );
