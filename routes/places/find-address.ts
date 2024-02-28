@@ -54,7 +54,6 @@ async function fetchAddress(lngLat: LngLat, provider: "esri" | "here") {
   const signedReq = await signer.sign("geo", req);
   const resp = await fetch(signedReq);
   const data = await resp.json();
-  console.dir(typeof data.Results[0].Place.PostalCode);
   return {
     label: data.Results[0].Place.Label,
     postalCode: data.Results[0].Place.PostalCode,
