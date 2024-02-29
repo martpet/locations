@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { Handlers } from "$fresh/server.ts";
+import { Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { chunk } from "$std/collections/chunk.ts";
 import { ulid } from "ulid";
@@ -75,12 +75,16 @@ export const handler: Handlers<undefined, State> = {
     // Check user
     const user = ctx.state.user;
     if (!user) {
-      return new Response(null, { status: 401 });
+      return new Response(null, {
+        status: STATUS_CODE.Unauthorized,
+      });
     }
     // Check request data
     const reqData = await req.json();
     if (!isCreatePlaceReqData(reqData) && !isUpdatePlaceReqData(reqData)) {
-      return new Response(null, { status: 400 });
+      return new Response(null, {
+        status: STATUS_CODE.BadRequest,
+      });
     }
     // Get edited place
     let editedPlace: Place | null = null;
@@ -121,7 +125,7 @@ export const handler: Handlers<undefined, State> = {
       );
       if (!uploadSession) {
         return new Response("bad upload session id", {
-          status: 400,
+          status: STATUS_CODE.BadRequest,
         });
       }
     }

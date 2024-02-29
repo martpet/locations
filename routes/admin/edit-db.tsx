@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps, STATUS_CODE } from "$fresh/server.ts";
 import Button from "../../components/Button.tsx";
 import Input, { TextArea } from "../../components/Input.tsx";
 import Label from "../../components/Label.tsx";
@@ -44,7 +44,7 @@ export const handler: Handlers<Data, State> = {
   },
   async POST(req, ctx) {
     const resp = new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: ctx.url.href },
     });
     try {

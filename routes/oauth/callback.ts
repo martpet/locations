@@ -1,4 +1,4 @@
-import { FreshContext } from "$fresh/server.ts";
+import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { deleteCookie, getCookies, setCookie } from "$std/http/cookie.ts";
 import { ulid } from "ulid";
 import {
@@ -26,14 +26,14 @@ export async function handler(req: Request, ctx: FreshContext<State>) {
   const oauthSessionId = getCookies(req.headers)[OAUTH_SESSION_COOKIE];
   if (!oauthSessionId) {
     return new Response("Missing OAuth session cookie", {
-      status: 400,
+      status: STATUS_CODE.BadRequest,
     });
   }
   // Get oauth session from db
   const oauthSession = await getOauthSession(oauthSessionId);
   if (!oauthSession) {
     return new Response("Missing OAuth session", {
-      status: 400,
+      status: STATUS_CODE.BadRequest,
     });
   }
   // Exchange oauth response code for tokens
@@ -100,7 +100,7 @@ export async function handler(req: Request, ctx: FreshContext<State>) {
     headers: {
       Location: redirect || "/",
     },
-    status: 303,
+    status: STATUS_CODE.SeeOther,
   });
   setCookie(resp.headers, {
     name: SESSION_COOKIE,

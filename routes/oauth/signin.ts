@@ -1,4 +1,4 @@
-import { FreshContext } from "$fresh/server.ts";
+import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import { setOauthSession } from "../../utils/db.ts";
 import {
@@ -27,7 +27,7 @@ export async function handler(_req: Request, ctx: FreshContext<State>) {
   });
   const resp = new Response("Redirecting...", {
     headers: { location: uri.href },
-    status: 303,
+    status: STATUS_CODE.SeeOther,
   });
   setCookie(resp.headers, {
     name: OAUTH_SESSION_COOKIE,

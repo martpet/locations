@@ -1,4 +1,4 @@
-import { defineRoute } from "$fresh/server.ts";
+import { defineRoute, STATUS_CODE } from "$fresh/server.ts";
 import { Head } from "$fresh/src/runtime/head.ts";
 import EditPlaceHeading from "../../(_components)/EditPlaceHeading.tsx";
 import PlaceDraftHeader from "../../(_components)/PlaceDraftHeader.tsx";
@@ -25,7 +25,7 @@ export default defineRoute<State>(async (_req, ctx) => {
   const isDraftOwner = user.id === draft?.revUser;
   if (!draft || !isDraftOwner) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "/profile" },
     });
   }

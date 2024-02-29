@@ -1,4 +1,4 @@
-import { FreshContext } from "$fresh/server.ts";
+import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { State } from "../../utils/types.ts";
 
 export function handler(_req: Request, ctx: FreshContext<State>) {
@@ -6,7 +6,7 @@ export function handler(_req: Request, ctx: FreshContext<State>) {
   if (!user?.isAdmin) {
     return new Response(null, {
       headers: { location: "/" },
-      status: 303,
+      status: STATUS_CODE.SeeOther,
     });
   }
   return ctx.next();

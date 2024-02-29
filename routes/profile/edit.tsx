@@ -1,4 +1,4 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps, STATUS_CODE } from "$fresh/server.ts";
 import { ulid } from "ulid";
 import Avatar, { DefaultAvatar } from "../../components/Avatar.tsx";
 import Button from "../../components/Button.tsx";
@@ -71,7 +71,7 @@ export const handler: Handlers<Data, State> = {
       ]);
     }
     const resp = new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "/profile" },
     });
     setFlash(resp, "Успешно запазване на данните");

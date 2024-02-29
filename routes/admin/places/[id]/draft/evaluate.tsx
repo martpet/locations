@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { defineRoute, Handlers } from "$fresh/server.ts";
+import { defineRoute, Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { ulid } from "ulid";
 import Button from "../../../../../components/Button.tsx";
 import Highlight from "../../../../../components/Highlight.tsx";
@@ -49,7 +49,7 @@ export const handler: Handlers<undefined, State> = {
     const isApproved = reqData.result === "approve";
     // Prepare response object
     const adminPlacesResp = new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: `/admin/places` },
     });
     // Get current draft

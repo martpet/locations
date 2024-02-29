@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { AWSSignerV4 } from "aws_sign_v4";
 import { getEnv } from "../../utils/env.ts";
 import { LngLat, State } from "../../utils/types.ts";
@@ -16,11 +16,15 @@ export interface FindAddressRespData {
 export const handler: Handlers<State> = {
   async POST(req, ctx) {
     if (!ctx.state.user) {
-      return new Response(null, { status: 401 });
+      return new Response(null, {
+        status: STATUS_CODE.Unauthorized,
+      });
     }
     const reqData = await req.json();
     if (!isFindAddressReqData(reqData)) {
-      return new Response(null, { status: 400 });
+      return new Response(null, {
+        status: STATUS_CODE.BadRequest,
+      });
     }
     const [esri, here] = await Promise.all([
       fetchAddress(reqData, "esri"),

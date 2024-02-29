@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { defineRoute } from "$fresh/server.ts";
+import { defineRoute, STATUS_CODE } from "$fresh/server.ts";
 import PlaceArticle from "../../(_components)/PlaceArticle.tsx";
 import { getDraft, getRev, getUser } from "../../../../utils/db.ts";
 import { photosOrigin, siteTitle } from "../../../../utils/env.ts";
@@ -20,12 +20,12 @@ export default defineRoute<State>(async (_req, ctx) => {
   const isOwner = user.id === draft?.revUser;
   if (!draft && user.isAdmin) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "/admin/places" },
     });
   } else if (!draft || (!isOwner && !user.isAdmin)) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "/profile" },
     });
   }

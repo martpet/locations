@@ -1,4 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
+import { STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import AnotherUserDraftMsg from "../../(_components)/AnotherUserDraftMsg.tsx";
 import AnotherUserRevMsg from "../../(_components)/AnotherUserRevMsg.tsx";
@@ -29,7 +30,7 @@ export default defineRoute<State>(async (_req, ctx) => {
   ]);
   if (!declinedDraft) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "/profile" },
     });
   }

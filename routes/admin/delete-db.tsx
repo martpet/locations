@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps, STATUS_CODE } from "$fresh/server.ts";
 import Button from "../../components/Button.tsx";
 import Input from "../../components/Input.tsx";
 import Label from "../../components/Label.tsx";
@@ -11,12 +11,14 @@ import { State } from "../../utils/types.ts";
 export const handler: Handlers<undefined, State> = {
   async POST() {
     if (isProd()) {
-      return new Response(null, { status: 400 });
+      return new Response(null, {
+        status: STATUS_CODE.BadRequest,
+      });
     }
     await dbReset();
     const resp = new Response(null, {
       headers: { location: "/" },
-      status: 303,
+      status: STATUS_CODE.SeeOther,
     });
     setFlash(resp, "Базата данни беше изтрита");
     return resp;

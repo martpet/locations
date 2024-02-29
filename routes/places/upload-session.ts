@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { ulid } from "ulid";
 import { setUploadSession } from "../../utils/db.ts";
 import { getEnv, uploadPhotoBucket } from "../../utils/env.ts";
@@ -20,12 +20,16 @@ export const handler: Handlers<undefined, State> = {
     // Check user
     const user = ctx.state.user;
     if (!user) {
-      return new Response(null, { status: 401 });
+      return new Response(null, {
+        status: STATUS_CODE.Unauthorized,
+      });
     }
     // Check request
     const reqData = await req.json();
     if (!isPostUploadSessionReqData(reqData)) {
-      return new Response(null, { status: 400 });
+      return new Response(null, {
+        status: STATUS_CODE.BadRequest,
+      });
     }
     // Create upload urls
     const uploadUrls = [];

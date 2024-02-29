@@ -1,4 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
+import { STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import PlaceArticle from "../../(_components)/PlaceArticle.tsx";
 import {
@@ -25,13 +26,15 @@ export default defineRoute<State>(async (_req, ctx) => {
   );
   if (!declinedDraft) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: user.isAdmin ? "/admin/places" : "/profile" },
     });
   }
   const isOwner = user.id === declinedDraft.revUser;
   if (!isOwner) {
-    return new Response(null, { status: 403 });
+    return new Response(null, {
+      status: STATUS_CODE.Forbidden,
+    });
   } else if (user.isAdmin) {
     declinedDraftUser = user;
   }

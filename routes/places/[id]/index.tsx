@@ -1,4 +1,4 @@
-import { Handler } from "$fresh/server.ts";
+import { Handler, STATUS_CODE } from "$fresh/server.ts";
 import { getPlace } from "../../../utils/db.ts";
 
 export const handler: Handler = async (_req, ctx) => {
@@ -7,7 +7,7 @@ export const handler: Handler = async (_req, ctx) => {
     return ctx.renderNotFound();
   }
   return new Response(null, {
-    status: 301,
+    status: STATUS_CODE.MovedPermanently,
     headers: {
       location: "/" + place.slug,
     },

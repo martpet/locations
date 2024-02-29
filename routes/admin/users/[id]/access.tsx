@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { Handlers } from "$fresh/server.ts";
+import { Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { ulid } from "ulid";
 import Button from "../../../../components/Button.tsx";
@@ -22,7 +22,9 @@ export const handler: Handlers<undefined, State> = {
   async POST(req, ctx) {
     const reqData = Object.fromEntries(await req.formData());
     if (!isAccessReqData(reqData)) {
-      return new Response("bad data", { status: 400 });
+      return new Response("bad data", {
+        status: STATUS_CODE.BadRequest,
+      });
     }
     const { action } = reqData;
 
@@ -38,14 +40,14 @@ export const handler: Handlers<undefined, State> = {
 
     if (cannotBanReason) {
       return new Response(cannotBanReason, {
-        status: 403,
+        status: STATUS_CODE.Forbidden,
         headers: {
           location: ctx.url.href,
         },
       });
     }
     const resp = new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: {
         location: `/admin/users/${targetUser.id}`,
       },

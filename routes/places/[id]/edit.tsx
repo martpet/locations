@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import { FreshContext } from "$fresh/server.ts";
+import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import AnotherUserDraftMsg from "../(_components)/AnotherUserDraftMsg.tsx";
 import EditPlaceHeading from "../(_components)/EditPlaceHeading.tsx";
@@ -34,7 +34,7 @@ export default defineRoute<State>(async (_req, ctx) => {
   const isDraftOwner = user.id === draft?.revUser;
   if (isDraftOwner) {
     return new Response(null, {
-      status: 303,
+      status: STATUS_CODE.SeeOther,
       headers: { location: "./draft/edit" },
     });
   }

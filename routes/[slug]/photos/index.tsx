@@ -1,8 +1,8 @@
-import { Handler } from "$fresh/server.ts";
+import { Handler, STATUS_CODE } from "$fresh/server.ts";
 
 export const handler: Handler = (_req, ctx) => {
   return new Response(null, {
-    status: 301,
+    status: STATUS_CODE.MovedPermanently,
     headers: {
       location: "/" + ctx.params.slug,
     },

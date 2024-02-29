@@ -1,4 +1,4 @@
-import { FreshContext } from "$fresh/server.ts";
+import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import { SESSION_COOKIE } from "../routes/oauth/callback.ts";
 import { ASSETS_EXTENSIONS } from "./consts.ts";
@@ -20,7 +20,9 @@ export async function sessionMiddleware(
     ctx.state.user = await getUserBySession(session);
   }
   if (ctx.state.user?.isBanned) {
-    return new Response(ctx.state.user.banUserMsg, { status: 403 });
+    return new Response(ctx.state.user.banUserMsg, {
+      status: STATUS_CODE.Forbidden,
+    });
   }
   const resp = await ctx.next();
   if (session && !ctx.state.noCacheOverride) {
