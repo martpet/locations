@@ -1,4 +1,5 @@
 import { Handlers, STATUS_CODE } from "$fresh/server.ts";
+import { HOUR } from "$std/datetime/constants.ts";
 import { ulid } from "ulid";
 import { setUploadSession } from "../../utils/db.ts";
 import { getEnv, uploadPhotoBucket } from "../../utils/env.ts";
@@ -48,7 +49,7 @@ export const handler: Handlers<undefined, State> = {
         accessKeyId: getEnv("AWS_ACCESS_KEY_ID"),
         secretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY"),
         region: getEnv("AWS_REGION"),
-        expiresIn: 60 * 60,
+        expiresIn: HOUR / 1000,
         method: "PUT",
         signatureKey,
         date,

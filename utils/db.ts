@@ -1,8 +1,12 @@
 import { chunk } from "$std/collections/chunk.ts";
+import { HOUR } from "$std/datetime/constants.ts";
 import { isSendEmailMsg, sendEmail } from "./email.ts";
 import { isProd } from "./env.ts";
 import { isAlertableLog } from "./logs.ts";
-import { OAUTH_SESSION_EXPIRES_SEC, SESSION_EXPIRES_SEC } from "./oauth.ts";
+import {
+  OAUTH_SESSION_DURATION_MILLS,
+  SESSION_DURATION_MILLS,
+} from "./oauth.ts";
 import { isProcessPhotosMsg, processPhotos } from "./photos.ts";
 import {
   Alert,
@@ -33,7 +37,7 @@ globalThis.IS_PROD = res.value!;
 
 export async function setOauthSession(id: string, session: OauthSession) {
   await kv.set(["oauth_sessions", id], session, {
-    expireIn: 1000 * OAUTH_SESSION_EXPIRES_SEC,
+    expireIn: OAUTH_SESSION_DURATION_MILLS,
   });
 }
 
@@ -46,7 +50,7 @@ export async function getOauthSession(id: string) {
 
 export async function setUserSession(sessionId: string, userId: string) {
   await kv.set(["user_sessions", sessionId], userId, {
-    expireIn: 1000 * SESSION_EXPIRES_SEC,
+    expireIn: SESSION_DURATION_MILLS,
   });
 }
 
@@ -58,7 +62,7 @@ export async function deleteUserSession(sessionId: string) {
 
 export async function setUploadSession(session: UploadSession) {
   await kv.set(["upload_sessions", session.userId, session.id], session, {
-    expireIn: 1000 * 60 * 60 * 2,
+    expireIn: HOUR * 2,
   });
 }
 

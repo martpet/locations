@@ -1,3 +1,4 @@
+import { DAY } from "$std/datetime/constants.ts";
 import { AWSSignerV4 } from "aws_sign_v4";
 import { RESIZE_PHOTOS_IN_DENO } from "./consts.ts";
 import { kv, setPhoto } from "./db.ts";
@@ -107,7 +108,7 @@ async function resizePhoto(
       body: blob,
       headers: {
         "x-amz-content-sha256": encodeHex(hashBuffer),
-        "cache-control": "public, max-age=31536000, immutable",
+        "cache-control": `public, max-age=${DAY * 365 / 1000}, immutable`,
       },
     });
     const signedReq = await signer.sign("s3", req);

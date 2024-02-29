@@ -1,5 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, Handler } from "$fresh/server.ts";
+import { MINUTE } from "$std/datetime/constants.ts";
 import { getPlaceBySlug, getUser } from "../../utils/db.ts";
 import { photosOrigin, siteTitle } from "../../utils/env.ts";
 import { sanitizePlace } from "../../utils/places.ts";
@@ -8,7 +9,7 @@ import PlaceArticle from "../places/(_components)/PlaceArticle.tsx";
 
 export const handler: Handler = async (_req, ctx) => {
   const resp = await ctx.render();
-  resp.headers.set("cache-control", "public, max-age=1800");
+  resp.headers.set("cache-control", `public, max-age=${MINUTE * 30 / 1000}`);
   return resp;
 };
 

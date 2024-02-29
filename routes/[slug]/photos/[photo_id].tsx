@@ -1,5 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, FreshContext } from "$fresh/server.ts";
+import { MINUTE } from "$std/datetime/constants.ts";
 import { decodeTime } from "ulid";
 import { dateTimeFormat } from "../../../utils/datetime.ts";
 import { getPlaceBySlug } from "../../../utils/db.ts";
@@ -8,7 +9,7 @@ import { State } from "../../../utils/types.ts";
 
 export async function handler(_req: Request, ctx: FreshContext) {
   const resp = await ctx.render();
-  resp.headers.set("cache-control", `public, max-age=1800`);
+  resp.headers.set("cache-control", `public, max-age=${MINUTE * 30 / 1000}`);
   return resp;
 }
 

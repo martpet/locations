@@ -4,7 +4,7 @@ import { setOauthSession } from "../../utils/db.ts";
 import {
   getOauthClient,
   OAUTH_SESSION_COOKIE,
-  OAUTH_SESSION_EXPIRES_SEC,
+  OAUTH_SESSION_DURATION_MILLS,
 } from "../../utils/oauth.ts";
 import { State } from "../../utils/types.ts";
 
@@ -34,7 +34,7 @@ export async function handler(_req: Request, ctx: FreshContext<State>) {
     value: oauthSession,
     path: "/",
     httpOnly: true,
-    maxAge: OAUTH_SESSION_EXPIRES_SEC,
+    maxAge: OAUTH_SESSION_DURATION_MILLS / 1000,
   });
   return resp;
 }

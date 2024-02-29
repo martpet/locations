@@ -1,4 +1,5 @@
 import { defineRoute } from "$fresh/server.ts";
+import { HOUR } from "$std/datetime/constants.ts";
 import { decodeTime } from "ulid";
 import { listPlaces } from "../utils/db.ts";
 import { photosOrigin, siteTitle } from "../utils/env.ts";
@@ -35,7 +36,7 @@ export default defineRoute<State>(async (_req, ctx) => {
   return new Response(rssFeed, {
     headers: {
       "content-type": "application/xml",
-      "cache-control": "public, max-age=3600",
+      "cache-control": `public, max-age=${HOUR / 1000}`,
     },
   });
 });

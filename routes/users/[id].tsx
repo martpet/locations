@@ -1,5 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import { defineRoute, Handler } from "$fresh/server.ts";
+import { MINUTE } from "$std/datetime/constants.ts";
 import { decodeTime } from "ulid";
 import { UserPublicPic } from "../../components/Avatar.tsx";
 import { dateTimeFormat } from "../../utils/datetime.ts";
@@ -10,7 +11,7 @@ import UserPlaces from "../profile/(_components)/UserPlaces.tsx";
 
 export const handler: Handler = async (_req, ctx) => {
   const resp = await ctx.render();
-  resp.headers.set("cache-control", "public, max-age=1800");
+  resp.headers.set("cache-control", `public, max-age=${MINUTE * 30 / 1000}`);
   return resp;
 };
 

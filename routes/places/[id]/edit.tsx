@@ -1,6 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import { FreshContext, STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
+import { MINUTE } from "$std/datetime/constants.ts";
 import AnotherUserDraftMsg from "../(_components)/AnotherUserDraftMsg.tsx";
 import EditPlaceHeading from "../(_components)/EditPlaceHeading.tsx";
 import PlaceForm from "../(_islands)/PlaceForm.tsx";
@@ -12,7 +13,7 @@ import { State } from "../../../utils/types.ts";
 
 export async function handler(_req: Request, ctx: FreshContext) {
   const resp = await ctx.render();
-  resp.headers.set("cache-control", "public, max-age=1800");
+  resp.headers.set("cache-control", `public, max-age=${MINUTE * 30 / 1000}`);
   return resp;
 }
 

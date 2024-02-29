@@ -14,7 +14,7 @@ import { fetchGoogleUser } from "../../utils/google.ts";
 import {
   getOauthClient,
   OAUTH_SESSION_COOKIE,
-  SESSION_EXPIRES_SEC,
+  SESSION_DURATION_MILLS,
 } from "../../utils/oauth.ts";
 import { State } from "../../utils/types.ts";
 import { isSiteOwner } from "../../utils/users.ts";
@@ -107,7 +107,7 @@ export async function handler(req: Request, ctx: FreshContext<State>) {
     value: session,
     path: "/",
     httpOnly: true,
-    maxAge: SESSION_EXPIRES_SEC,
+    maxAge: SESSION_DURATION_MILLS / 1000,
   });
   deleteCookie(resp.headers, OAUTH_SESSION_COOKIE, { path: "/" });
   return resp;

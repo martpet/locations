@@ -1,5 +1,6 @@
 import { Head, Partial } from "$fresh/runtime.ts";
 import { defineRoute, FreshContext } from "$fresh/server.ts";
+import { DAY } from "$std/datetime/constants.ts";
 import { decodeTime } from "ulid";
 import PlaceDiff from "../../../(_components)/PlaceDiff.tsx";
 import SideNav from "../../../../../components/SideNav.tsx";
@@ -45,7 +46,7 @@ export async function getDiffData(
 
 export const handler = async (_req: Request, ctx: FreshContext<State>) => {
   const resp = await ctx.render();
-  resp.headers.set("cache-control", `public, max-age=${60 * 60 * 24}`);
+  resp.headers.set("cache-control", `public, max-age=${DAY / 1000}`);
   return resp;
 };
 

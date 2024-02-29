@@ -2,6 +2,7 @@ import { Head } from "$fresh/runtime.ts";
 import { Handlers, STATUS_CODE } from "$fresh/server.ts";
 import { defineRoute } from "$fresh/src/server/defines.ts";
 import { chunk } from "$std/collections/chunk.ts";
+import { MINUTE } from "$std/datetime/constants.ts";
 import { ulid } from "ulid";
 import {
   deleteDraft,
@@ -68,7 +69,7 @@ export type PutPlaceRespData = null | {
 export const handler: Handlers<undefined, State> = {
   async GET(_req, ctx) {
     const resp = await ctx.render();
-    resp.headers.set("cache-control", `public, max-age=1800`);
+    resp.headers.set("cache-control", `public, max-age=${MINUTE * 30 / 1000}`);
     return resp;
   },
   async PUT(req, ctx) {
