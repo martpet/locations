@@ -2,7 +2,7 @@ import { asset, Head, IS_BROWSER } from "$fresh/runtime.ts";
 import { renderToString } from "$fresh/src/server/deps.ts";
 import type { Point } from "geojson";
 import maplibre from "maplibregl";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import useThemeDetector from "../hooks/useThemeDetector.ts";
 import {
   PlaceGeoJsonFeature,
@@ -10,11 +10,7 @@ import {
 } from "../utils/places.ts";
 import ImageWithLoader from "./ImageWithLoader.tsx";
 
-const CACHED_STYLES: { [k: string]: maplibre.StyleSpecification } = {};
-const DEFAULT_BOUNDS = [[22.334, 41.223], [28.611, 44.232]];
 const CONTAINER = "map";
-const DARK_MAP = "places-open-data-dark";
-const LIGHT_MAP = "places-open-data-light";
 const PLACES = "places";
 const CLUSTERS = "places-clusters";
 const CLUSTER_COUNT = "cluster-count";
@@ -34,7 +30,10 @@ export default function MapView(props: MapViewProps) {
       </Head>
     );
   }
-  const [map, setMap] = useState<maplibre.Map>();
+  const map = useRef<maplibre.Map>();
+  const DARK_MAP = "places-open-data-dark";
+  const LIGHT_MAP = "places-open-data-light";
+  const STYLES = useRef<{ [k: string]: maplibre.StyleSpecification }>({});
   const [style, setStyle] = useState<maplibre.StyleSpecification>();
   const isDarkTheme = useThemeDetector();
   const mapName = isDarkTheme ? DARK_MAP : LIGHT_MAP;
@@ -43,24 +42,21 @@ export default function MapView(props: MapViewProps) {
 
   useEffect(() => {
     if (!style) return;
-    if (!map) {
-      setMap(initMap(style, props.geojson));
+    if (map.current) {
+      map.current.setStyle(style, { diff: false }); // https://github.com/maplibre/maplibre-gl-js/issues/2587#issuecomment-1656579725
     } else {
-      map.setStyle(
-        style,
-        { diff: false }, // https://github.com/maplibre/maplibre-gl-js/issues/2587#issuecomment-1656579725
-      );
+      map.current = initMap(style, props.geojson);
     }
   }, [style]);
 
   useEffect(() => {
-    const cached = CACHED_STYLES[styleUrl];
+    const cached = STYLES.current[styleUrl];
     if (cached) {
       setStyle(cached);
     } else {
       getStyle(styleUrl).then((fetched) => {
         setStyle(fetched);
-        CACHED_STYLES[styleUrl] = fetched;
+        STYLES.current[styleUrl] = fetched;
       });
     }
   }, [styleUrl]);
@@ -69,8 +65,7 @@ export default function MapView(props: MapViewProps) {
     <div
       id={CONTAINER}
       class={`
-        not-prose !absolute left-0 top-0 w-full h-full
-        !font-[inherit]
+        not-prose !absolute left-0 top-0 w-full h-full !font-[inherit]
         [&_.maplibregl-popup-content]:p-2.5
         dark:[&_.maplibregl-popup-content]:bg-black
         dark:[&_.maplibregl-popup-anchor-bottom_.maplibregl-popup-tip]:!border-t-black
@@ -112,6 +107,7 @@ function initMap(
   style: maplibre.StyleSpecification,
   geojson: PlacesFeatureCollection,
 ) {
+  const DEFAULT_BOUNDS = [[22.334, 41.223], [28.611, 44.232]];
   const savedBoundsJson = localStorage.getItem(BOUNDS_STORAGE_KEY);
   const savedBounds = savedBoundsJson && JSON.parse(savedBoundsJson);
   const bounds = savedBounds || DEFAULT_BOUNDS;
