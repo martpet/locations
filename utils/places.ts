@@ -58,9 +58,8 @@ export async function sanitizePlace<
     ...place,
   };
   if (place.description) {
-    sanitized.sanitized_description = Marked.parse(
-      ammonia.clean(place.description),
-    ) as string;
+    const html = Marked.parse(place.description) as string;
+    sanitized.sanitized_description = ammonia.clean(html);
   }
   return sanitized;
 }

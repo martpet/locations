@@ -55,7 +55,7 @@ export default defineRoute<State>(async (_req, ctx) => {
               {item.body && (
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: Marked.parse(ammonia.clean(item.body)) as string,
+                    __html: ammonia.clean(Marked.parse(item.body) as string),
                   }}
                 />
               )}
