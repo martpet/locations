@@ -25,7 +25,7 @@ export default function Flash({ ctx }: FlashProps) {
           __html: `addEventListener("beforeunload", () => flashForm.submit())`,
         }}
       />
-      <dialog id="flash" open class="relative z-10 top-2 bg-transparent">
+      <dialog open class="relative z-10 top-5 bg-transparent">
         <div
           class={`flex min-w-min gap-2 px-3 py-1 text-neutral-100 rounded ${
             bg[type]
