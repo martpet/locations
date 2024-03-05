@@ -73,7 +73,7 @@ export default function PlaceArticle(props: PlaceProps) {
         )}
         {props.editLink && (
           <p>
-            <a href={props.editLink}>Редактирай</a>
+            <a href={props.editLink}>Редактирай страницата</a>
           </p>
         )}
       </footer>
