@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 import CloseButton from "../components/CloseButton.tsx";
+import useMetaThemeColor from "../hooks/useMetaThemeColor.ts";
 import ImageWithLoader from "./ImageWithLoader.tsx";
 
 interface LightBoxProps {
@@ -15,6 +16,9 @@ export default function LightBox(
   { src, prevSrc, nextSrc, onClose, onArrow }: LightBoxProps,
 ) {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  useMetaThemeColor("rgb(24 24 27)");
+
   const onBackgroundClick: JSX.MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target instanceof HTMLDivElement) {
       onClose();
