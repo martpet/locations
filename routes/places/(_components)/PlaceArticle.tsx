@@ -64,7 +64,7 @@ export default function PlaceArticle(props: PlaceProps) {
           }}
         />
       )}
-      <footer class="mt-10 border-t dark:border-stone-800">
+      <footer class="mt-16 border-t dark:border-stone-800">
         {props.createdBy && (
           <ArticleDate
             place={props.place as PublishedPlace}
@@ -72,7 +72,7 @@ export default function PlaceArticle(props: PlaceProps) {
           />
         )}
         {props.editLink && (
-          <p class="mt-10">
+          <p>
             <a href={props.editLink}>Редактирай</a>
           </p>
         )}
