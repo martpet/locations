@@ -1,14 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
-import Spinner from "../components/Spinner.tsx";
+import Spinner, { SpinnerProps } from "../components/Spinner.tsx";
 
-interface ImageWithLoaderProps extends JSX.HTMLAttributes<HTMLImageElement> {
+interface ImageWithLoaderProps
+  extends Omit<JSX.HTMLAttributes<HTMLImageElement>, "size"> {
   reloadOnError?: boolean;
   spinnerOnErrorOnly?: boolean;
   invertSpinnerColor?: boolean;
   hideUntilLoaded?: boolean;
   onLoad?(): void;
   maxRetryAttempts?: number;
+  spinnerSize?: SpinnerProps["size"];
 }
 
 export default function ImageWithLoader(props: ImageWithLoaderProps) {
@@ -19,6 +21,7 @@ export default function ImageWithLoader(props: ImageWithLoaderProps) {
     hideUntilLoaded,
     maxRetryAttempts = 5,
     onLoad,
+    spinnerSize,
     ...imgProps
   } = props;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -76,6 +79,7 @@ export default function ImageWithLoader(props: ImageWithLoaderProps) {
         <Spinner
           invertColor={invertSpinnerColor}
           class="absolute left-1/2 top-1/2 -translate-x-2/4 -translate-y-2/4"
+          size={spinnerSize}
         />
       )}
     </span>

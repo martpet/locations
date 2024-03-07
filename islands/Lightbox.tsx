@@ -82,6 +82,7 @@ export default function LightBox(
             key={src} // removes img from dom on src change, prevents next src waiting for prev src to load
             invertSpinnerColor
             onLoad={() => setIsLoaded(true)}
+            spinnerSize="md"
             class="max-w-[calc(100vw-40px)] max-h-[calc(100vh-40px)] rounded object-cover"
           />
           {isLoaded && (

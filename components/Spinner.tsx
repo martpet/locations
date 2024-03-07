@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact";
 import { JSX } from "preact/jsx-runtime";
 
-interface SpinnerProps
+export interface SpinnerProps
   extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, "size"> {
   size?: "sm" | "md" | "lg";
   children?: ComponentChildren;
