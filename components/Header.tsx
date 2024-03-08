@@ -1,7 +1,7 @@
 import { RouteContext } from "$fresh/server.ts";
 import { JSX } from "preact/jsx-runtime";
 import ProfileDropdown from "../islands/ProfileDropdown.tsx";
-import { isProd, siteTitle } from "../utils/env.ts";
+import { getEnv, isProd, siteTitle } from "../utils/env.ts";
 import { loginLink } from "../utils/resp.ts";
 import { State } from "../utils/types.ts";
 import Highlight from "./Highlight.tsx";
@@ -14,6 +14,7 @@ export default function Header({ ctx }: HeaderProps) {
   const path = ctx.url.pathname;
   const user = ctx.state.user;
   const isDenoDevEnv = !isProd() && !ctx.url.origin.includes("localhost");
+  const isDemoHost = ctx.url.host === getEnv("PROD_HOST_DENO");
   let HeadingTag: "p" | "h1" = "p";
   if (path === "/" || path === "/places") HeadingTag = "h1";
 
@@ -22,7 +23,11 @@ export default function Header({ ctx }: HeaderProps) {
       <HeadingTag class="max-sm:mb-3 text-stone-900 dark:text-white m-0 text-base font-bold">
         {siteTitle()}
       </HeadingTag>
-      {isDenoDevEnv && <Highlight class="text-xs">DEV</Highlight>}
+      {(isDenoDevEnv || isDemoHost) && (
+        <Highlight class="text-xs">
+          {isDenoDevEnv ? "DEV" : "DEMO"}
+        </Highlight>
+      )}
       <nav class="grow">
         <ul class="not-prose grow flex flex-wrap gap-5 items-center text-sm">
           {path !== "/places/new" && (
