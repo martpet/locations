@@ -92,7 +92,7 @@ export default function Gallery(
       <ul
         class={`
           ${ulProps.class || ""}
-          not-prose flex flex-wrap gap-5
+          not-prose flex gap-5
           [&_ins]:inline-block [&_ins]:h-full
           [&_del]:inline-block [&_del]:h-full
         `}

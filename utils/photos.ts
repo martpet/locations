@@ -11,15 +11,15 @@ import { ExifData, LngLat, Photo } from "./types.ts";
 
 export interface ProcessPhotosMsg {
   type: "process-photos";
-  photos: Photo[];
+  payload: Photo[];
 }
 
 export function isProcessPhotosMsg(o: unknown): o is ProcessPhotosMsg {
   const obj = o as Partial<ProcessPhotosMsg>;
   return typeof o !== "undefined" &&
     obj.type === "process-photos" &&
-    Array.isArray(obj.photos) &&
-    obj.photos.every((it: Partial<Photo>) => {
+    Array.isArray(obj.payload) &&
+    obj.payload.every((it: Partial<Photo>) => {
       return it !== undefined &&
         typeof it.s3Key === "string" &&
         typeof it.placeId === "string" &&
@@ -27,7 +27,7 @@ export function isProcessPhotosMsg(o: unknown): o is ProcessPhotosMsg {
     });
 }
 
-export async function processPhotos({ photos }: ProcessPhotosMsg) {
+export async function processPhotos(photos: Photo[]) {
   const photo = photos.shift();
   if (!photo) return;
   const signer = new AWSSignerV4();

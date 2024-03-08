@@ -482,7 +482,7 @@ export async function dbReset() {
 if (!Deno.args.includes("build")) {
   kv.listenQueue((msg) => {
     if (isProcessPhotosMsg(msg)) {
-      processPhotos(msg);
+      processPhotos(msg.payload);
     } else if (isSendEmailMsg(msg)) {
       sendEmail(msg.payload);
     } else {

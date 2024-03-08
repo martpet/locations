@@ -200,7 +200,7 @@ export const handler: Handlers<undefined, State> = {
       await Promise.all(batches.map((batch) => {
         const msg: ProcessPhotosMsg = {
           type: "process-photos",
-          photos: batch,
+          payload: batch,
         };
         return kv.enqueue(msg);
       }));
