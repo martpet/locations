@@ -14,7 +14,7 @@ import { Alert, Log, State } from "../../../utils/types.ts";
 
 export default defineRoute<State>(async (_req, ctx) => {
   const user = ctx.state.user!;
-  const dateFmt = dateTimeFormat({ timeStyle: "short", dateStyle: "long" });
+  const dateFmt = dateTimeFormat({ timeStyle: "short", dateStyle: "medium" });
   const [ammonia, Marked] = await Promise.all([
     import("ammonia"),
     import("marked"),
@@ -46,8 +46,8 @@ export default defineRoute<State>(async (_req, ctx) => {
       {!items.length && <p>Няма съобщения</p>}
       <div class="max-w-6xl sm:grid grid-flow-row grid-cols-[auto_1fr] gap-8 max-sm:divide-y dark:max-sm:divide-gray-800 [&>*+*]:max-sm:pt-3">
         {items.map((item) => (
-          <article class="col-span-2 grid grid-cols-subgrid grid-rows-subgrid max-sm:mb-3">
-            <header class="sm:mt-2 text-sm">
+          <article class="col-span-2 grid grid-cols-subgrid grid-rows-subgrid sm:mt-3">
+            <header class="sm:mt-1">
               {dateFmt.format(decodeTime(item.id))}
             </header>
             <div>
