@@ -96,10 +96,11 @@ export function Thumb(props: ThumbProps) {
     <li class={`${!isLoaded ? "invisible" : ""} relative`}>
       <a href={url} target="_blank" class="cursor-move">
         <img
+          loading="lazy"
           src={url.replace(".jpeg", ".thumb.jpeg")}
           ref={imgRef}
           onLoad={() => onLoad(id)}
-          class="sm:h-48 rounded shadow"
+          class="h-48 aspect-square object-cover rounded shadow"
         />
       </a>
       {canRemove && (

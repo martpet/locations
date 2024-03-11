@@ -100,20 +100,26 @@ export default function Gallery(
         {items.map((item) => {
           const image = (
             <ImageWithLoader
+              loading="lazy"
               src={item.src.replace(".jpeg", ".thumb.jpeg")}
               reloadOnError
               spinnerOnErrorOnly
-              class={`max-h-full rounded ${isDiff ? "p-2" : ""}`}
               maxRetryAttempts={errorRetryAttempts}
+              class={`
+                rounded w-full h-full object-cover 
+                ${isDiff ? "p-2" : ""}
+              `}
             />
           );
           return (
-            <li
-              class={`sm:h-56 rounded shadow  ${item.css || ""}`}
-            >
+            <li>
               <a
                 href={item.href}
                 onClick={onAnchorClick}
+                class={`
+                  ${item.css || ""}
+                  block h-32 sm:h-56 aspect-square rounded shadow
+                `}
               >
                 {item.diffChange
                   ? (
