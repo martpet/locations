@@ -56,6 +56,7 @@ export default defineRoute<State>(async (_req, ctx) => {
           publishedVersionstamp={publishedVersionstamp}
           draftVersionstamp={draftVersionstamp}
           photosOrigin={photosOrigin()}
+          isAdmin={user.isAdmin}
         />
       )}
     </>

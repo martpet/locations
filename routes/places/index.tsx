@@ -40,6 +40,7 @@ export type BasePutPlaceReqData = {
   address: Address;
   lngLat: LngLat;
   photos: string[];
+  overwriteRev: boolean;
 };
 
 export interface CreatePlaceReqData extends BasePutPlaceReqData {
@@ -141,7 +142,7 @@ export const handler: Handlers<undefined, State> = {
     }
     // Define place
     const publishDirectly = Boolean(user.isAdmin);
-    const rev = ulid();
+    const rev = reqData.overwriteRev && editedPlace ? editedPlace.rev : ulid();
     const title = reqData.title;
     const place: Place = {
       id: editedPlace?.id || rev,
@@ -273,6 +274,7 @@ function isBasePutPlaceReqData(o: unknown): o is BasePutPlaceReqData {
     typeof obj.address?.esri === "string" &&
     typeof obj.address.here === "string" &&
     typeof obj.address.current === "string" &&
+    typeof obj.overwriteRev === "boolean" &&
     (Array.isArray(obj.photos) &&
       (obj.photos.every((x) => typeof x === "string")));
 }

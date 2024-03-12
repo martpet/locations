@@ -16,7 +16,7 @@ export default defineRoute<State>((req, ctx) => {
         <title>Добави | {siteTitle()}</title>
       </Head>
       <h1>Добави</h1>
-      <PlaceForm />
+      <PlaceForm isAdmin={user.isAdmin} />
     </>
   );
 });

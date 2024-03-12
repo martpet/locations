@@ -59,6 +59,7 @@ interface CurrentPlaceProps {
   publishedVersionstamp: string | null;
   draftVersionstamp: string | null;
   photosOrigin: string;
+  isAdmin: boolean | undefined;
 }
 
 interface NewPlaceProps {
@@ -67,6 +68,7 @@ interface NewPlaceProps {
   publishedVersionstamp?: never;
   draftVersionstamp?: never;
   photosOrigin?: never;
+  isAdmin: boolean | undefined;
 }
 
 type PlaceFormProps = CurrentPlaceProps | NewPlaceProps;
@@ -78,6 +80,7 @@ export default function PlaceForm(
     publishedVersionstamp,
     draftVersionstamp,
     photosOrigin,
+    isAdmin,
   }: PlaceFormProps,
 ) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -88,6 +91,7 @@ export default function PlaceForm(
   const prevLngLatRef = useRef<DetectedLngLat>(editedPlace?.lngLat);
   const [photos, setPhotos] = useState<Photo[]>(createInitialPhotos);
   const [address, setAddress] = useState(editedPlace?.address || null);
+  const [overwriteRev, setOverwriteRev] = useState(false);
   const [isFetchingAddress, setIsFetchingAddress] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -209,6 +213,7 @@ export default function PlaceForm(
         publishedVersionstamp,
         draftVersionstamp,
         address,
+        overwriteRev,
       };
     } else if (uploadSessionId) {
       data = {
@@ -218,6 +223,7 @@ export default function PlaceForm(
         lngLat,
         uploadSessionId,
         address,
+        overwriteRev,
       };
     } else {
       throw new Error("bad place data");
@@ -440,6 +446,19 @@ export default function PlaceForm(
             {isUploading && addedFiles.length === 1 && "Снимката се изпраща"}
             {isUploading && addedFiles.length > 1 && "Снимките се изпращат"}
           </div>
+          {isAdmin && editedPlace && (
+            <details class="mt-5">
+              <summary>Admin</summary>
+              <label class="flex items-center gap-1">
+                <Input
+                  type="checkbox"
+                  checked={overwriteRev}
+                  onChange={() => setOverwriteRev((prev) => !prev)}
+                />{" "}
+                Overwrite rev
+              </label>
+            </details>
+          )}
         </fieldset>
       </form>
       {errorMsg && (

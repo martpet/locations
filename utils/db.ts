@@ -132,6 +132,15 @@ export async function setPlace(
   }
 
   const atomic = kv.atomic();
+
+  // If admin edits place with "overwriteRev" option.
+  const skipRevCount = currentPlace && currentPlace.rev === place.id;
+  if (!skipRevCount) {
+    atomic
+      .sum(["places_revs_count", place.id], 1n)
+      .sum(["places_user_revs_count", place.revUser, place.id], 1n);
+  }
+
   if (currentPlace && isSlugNew) {
     atomic.delete(["places_by_slug", currentPlace.slug]);
   }
@@ -154,8 +163,6 @@ export async function setPlace(
     .set(["places_revs_by_user", place.revUser, place.id, place.rev], "")
     .set(["places_users", place.id, place.revUser], "")
     .set(["places_by_user", place.revUser, place.id], "")
-    .sum(["places_revs_count", place.id], 1n)
-    .sum(["places_user_revs_count", place.revUser, place.id], 1n)
     .commit();
 }
 
