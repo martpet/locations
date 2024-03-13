@@ -7,20 +7,12 @@ interface InputProps extends Omit<JSX.HTMLAttributes<HTMLInputElement>, "ref"> {
 
 type TextAreaProps = JSX.HTMLAttributes<HTMLTextAreaElement>;
 
-function buildCssClass(props: InputProps | TextAreaProps) {
-  let str =
-    "bg-transparent dark:border-neutral-600 [:disabled_&]:opacity-50 rounded shadow-inner";
-  if (props.type !== "checkbox") str += " w-full";
-  if (props.disabled) str += " opacity-50";
-  return str;
-}
-
 export default function Input({ elRef, ...props }: InputProps) {
   return (
     <input
       {...props}
       {...(elRef && { ref: elRef })}
-      class={`${props.class || ""} ${buildCssClass(props)}`}
+      class={`${props.class || ""} ${css(props)}`}
     />
   );
 }
@@ -29,7 +21,15 @@ export function TextArea(props: TextAreaProps) {
   return (
     <textarea
       {...props}
-      class={`${props.class || ""} ${buildCssClass(props)}`}
+      class={`${props.class || ""} ${css(props)}`}
     />
   );
+}
+
+function css(props: InputProps | TextAreaProps) {
+  let str =
+    "bg-transparent dark:border-neutral-600 [:disabled_&]:opacity-50 rounded shadow-inner";
+  if (props.type !== "checkbox") str += " w-full";
+  if (props.disabled) str += " opacity-50";
+  return str;
 }
