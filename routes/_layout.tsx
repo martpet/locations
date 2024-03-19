@@ -8,7 +8,7 @@ export default defineLayout<State>((_req, ctx) => {
     <>
       <Header ctx={ctx} />
       <Flash ctx={ctx} />
-      <main class="relative flex-grow px-5 pt-12 pb-8">
+      <main class="relative flex-grow px-5 pt-6 sm:pt-12 pb-8">
         <ctx.Component />
       </main>
     </>

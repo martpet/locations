@@ -10,7 +10,7 @@ export default function Avatar({ picture, ...imgProps }: AvatarProps) {
     <img
       src={picture}
       referrerpolicy="no-referrer"
-      class={`${imgProps.class || ""} not-prose w-7 rounded-full`}
+      class={`${imgProps.class || ""} not-prose w-7 aspect-square rounded-full`}
       alt="Профилна снимка"
     />
   );

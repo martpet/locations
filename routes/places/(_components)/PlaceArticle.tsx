@@ -59,6 +59,7 @@ export default function PlaceArticle(props: PlaceProps) {
       />
       {props.place.sanitized_description && (
         <Container
+          class="mt-12"
           dangerouslySetInnerHTML={{
             __html: props.place.sanitized_description,
           }}
@@ -72,7 +73,7 @@ export default function PlaceArticle(props: PlaceProps) {
           />
         )}
         {props.editLink && (
-          <p>
+          <p class="text-sm">
             <a href={props.editLink}>Редактирай страницата</a>
           </p>
         )}
@@ -126,7 +127,7 @@ function Address({ place }: { place: Place }) {
   const mapLink = `/?place=${place.slug}#${ZOOM}/${lat}/${lng}`;
   const locationText = place.address[place.address.current];
   return (
-    <address class="my-5 before:content-['📍_'] before:not-italic">
+    <address class="my-5 not-italic before:content-['📍_']">
       {locationText}
       <span class="text-sm not-italic whitespace-nowrap">
         {" — "}

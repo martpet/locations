@@ -58,8 +58,7 @@ export default function PlacesTable({ places }: PlacesTableProps) {
   return (
     <>
       <Spinner class={IS_BROWSER ? "hidden" : ""} />
-
-      <table class={`${!IS_BROWSER ? "hidden" : ""} mt-0 sm:mt-3`}>
+      <table class={`${!IS_BROWSER ? "hidden" : ""} mt-0`}>
         <thead class="max-sm:hidden">
           <tr>
             <th>Име</th>
@@ -81,10 +80,10 @@ export default function PlacesTable({ places }: PlacesTableProps) {
             </th>
           </tr>
         </thead>
-        <tbody class="max-sm:[&_td]:block max-sm:[&_td]:px-0 max-sm:[&_td]:py-1">
+        <tbody class="max-sm:[&_td]:block max-sm:[&_td]:px-0 max-sm:[&_td]:py-0">
           {places.map((place) => (
-            <tr class="max-sm:block max-sm:mb-5 max-sm:border-none">
-              <td class="max-sm:text-lg">
+            <tr class="max-sm:flex max-sm:flex-col max-sm:mb-5 max-sm:border-none">
+              <td>
                 <a href={"/" + place.slug}>{place.title}</a>
               </td>
               <td>{place.address[place.address.current]}</td>
