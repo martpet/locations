@@ -10,10 +10,7 @@ import {
   User,
 } from "../../../utils/types.ts";
 import PlaceDraftHeader from "./PlaceDraftHeader.tsx";
-
-function isDeclinedDraft(place: Place | DeclinedDraft): place is DeclinedDraft {
-  return typeof (place as DeclinedDraft).reasonDeclined === "string";
-}
+import PlaceHeader from "./PlaceHeader.tsx";
 
 interface PlaceProps {
   place: SanitizedPlace<Place | DeclinedDraft>;
@@ -48,10 +45,7 @@ export default function PlaceArticle(props: PlaceProps) {
           photosOrigin={props.photosOrigin}
         />
       )}
-      <Container>
-        <h1>{props.place.title}</h1>
-        <Address place={props.place} />
-      </Container>
+      <PlaceHeader place={props.place} />
       <Gallery
         class="my-10"
         items={galleryItems}
@@ -121,18 +115,6 @@ function ArticleDate(props: { place: PublishedPlace; createdBy: User }) {
   );
 }
 
-function Address({ place }: { place: Place }) {
-  const ZOOM = 16;
-  const [lng, lat] = place.lngLat;
-  const mapLink = `/?place=${place.slug}#${ZOOM}/${lat}/${lng}`;
-  const locationText = place.address[place.address.current];
-  return (
-    <address class="my-5 not-italic before:content-['📍_']">
-      {locationText}
-      <span class="text-sm not-italic whitespace-nowrap">
-        {" — "}
-        <a href={mapLink}>виж карта</a>
-      </span>
-    </address>
-  );
+function isDeclinedDraft(place: Place | DeclinedDraft): place is DeclinedDraft {
+  return typeof (place as DeclinedDraft).reasonDeclined === "string";
 }

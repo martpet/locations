@@ -6,6 +6,7 @@ import { dateTimeFormat } from "../../../utils/datetime.ts";
 import { getPlaceBySlug } from "../../../utils/db.ts";
 import { photosOrigin, siteTitle } from "../../../utils/env.ts";
 import { State } from "../../../utils/types.ts";
+import PlaceHeader from "../../places/(_components)/PlaceHeader.tsx";
 
 export async function handler(_req: Request, ctx: FreshContext) {
   const resp = await ctx.render();
@@ -30,7 +31,7 @@ export default defineRoute<State>(async (_req, ctx) => {
         <title>Снимка: {place.title} | {siteTitle()}</title>
       </Head>
       <article>
-        <h1>{place.title}</h1>
+        <PlaceHeader place={place} />
         <figure>
           <img src={imgSrc} />
           <figcaption>{photoDate}</figcaption>
