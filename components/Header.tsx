@@ -15,14 +15,12 @@ export default function Header({ ctx }: HeaderProps) {
   const user = ctx.state.user;
   const isDenoDevEnv = !isProd() && !ctx.url.origin.includes("localhost");
   const isDemoHost = ctx.url.host === getEnv("PROD_HOST_DENO");
-  let HeadingTag: "p" | "h1" = "p";
-  if (path === "/" || path === "/places") HeadingTag = "h1";
 
   return (
-    <header class="min-h-[53px] sm:flex flex-wrap items-center gap-10 px-5 py-3 dark:bg-zinc-900 border-b dark:border-b-zinc-800">
-      <HeadingTag class="max-sm:mb-3 text-stone-900 dark:text-white m-0 text-base font-bold">
-        {siteTitle()}
-      </HeadingTag>
+    <header class="sm:flex flex-wrap items-center gap-10 px-5 dark:bg-zinc-900 border-b dark:border-b-zinc-800">
+      <h1 class="max-sm:mb-3 text-stone-900 dark:text-white m-0 text-[55px]">
+        <span class="relative top-[3px]">{siteTitle()}</span>
+      </h1>
       {(isDenoDevEnv || isDemoHost) && (
         <Highlight class="text-xs">
           {isDenoDevEnv ? "DEV" : "DEMO"}
